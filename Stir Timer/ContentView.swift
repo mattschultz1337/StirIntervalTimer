@@ -12,14 +12,16 @@ struct ContentView: View {
     
     @State var curr: Date = Date()
     @State var timeRemaining = 0.0
+    @State var minRemaining = 0
     @State var msRemaining = 0
+    @State private var selection = 0
     @State var pause = false
+    let colors = ["Red","Yellow","Green","Blue"]
     let timer = Timer.publish(every: 0.1, on: .main, in: .common)
     
     var body: some View {
-        NavigationView{
-            VStack{
-                //                Text(timerLogic(from: referenceDate, to: curr)).font(.largeTitle)
+        VStack{
+            Group{
                 Text(timerLogic(from: Date(timeIntervalSinceNow: timeRemaining) , to: curr) + ":0" + "\(self.msRemaining)" + "ms").font(.largeTitle)
                     .onReceive(timer) { _ in
                         
@@ -32,12 +34,15 @@ struct ContentView: View {
                             }
                             self.curr = Date()
                             self.timeRemaining -= 0.1
-                        } else{
+                        } else if !self.pause{
                             self.msRemaining = 0
                         }
                 }
                 Spacer().frame(height: 25)
-                HStack{
+            }
+            
+            HStack{
+                Group{
                     Button(action: {
                         if !self.pause{
                             self.timeRemaining = 10
@@ -65,10 +70,28 @@ struct ContentView: View {
                             Text("RESET").font(.subheadline).bold()
                     }
                 }
-               
-//                    .pickerStyle(WheelPickerStyle())
             }
-        }.navigationBarTitle("Stir Timer")
+            
+            NavigationView{
+               
+                    HStack{
+                       Picker("Select a number", selection: $selection) {
+                            ForEach(0..<10) {
+                                Text("\($0)")
+                            }
+                        }
+                        .labelsHidden()
+                    }
+                
+            }
+            
+            
+            
+            //                    .pickerStyle(WheelPickerStyle())
+        }
+        //
+        //
+        
         
     }
 }
