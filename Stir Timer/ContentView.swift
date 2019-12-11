@@ -14,7 +14,9 @@ struct ContentView: View {
     @State var timeRemaining = 0.0
     @State var minRemaining = 0
     @State var msRemaining = 0
-    @State private var selection = 0
+    @State private var hselection = 0
+    @State private var mselection = 0
+    @State private var sselection = 0
     @State var pause = false
     let colors = ["Red","Yellow","Green","Blue"]
     let timer = Timer.publish(every: 0.1, on: .main, in: .common)
@@ -75,16 +77,28 @@ struct ContentView: View {
             NavigationView{
                
                     HStack{
-                       Picker("Select a number", selection: $selection) {
-                            ForEach(0..<10) {
-                                Text("\($0)")
+                       Picker("Hours", selection: $hselection) {
+                            ForEach(0..<25) {
+                                Text("\($0) hours")
+                            }
+                            
+                        }
+                       .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                        Picker("Minutes", selection: $mselection) {
+                            ForEach(0..<60) {
+                                Text("\($0) mins")
                             }
                         }
-                        .labelsHidden()
+                        .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                        Picker("Seconds", selection: $sselection) {
+                            ForEach(0..<60) {
+                                Text("\($0) secs")
+                            }
+                        }
+                        .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                     }
                 
             }
-            
             
             
             //                    .pickerStyle(WheelPickerStyle())
