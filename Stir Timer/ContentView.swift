@@ -11,21 +11,35 @@ import SwiftUI
 struct ContentView: View {
     
     @State var curr: Date = Date()
-    var referenceDate: Date = Date(timeIntervalSinceNow: 100)
-    var timer: Timer {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in
-            self.curr = Date()
-        }
-    }
+    @State var timeRemaining = 0.0
+    @State var msRemaining = 0
+    let timer = Timer.publish(every: 0.1, on: .main, in: .common)
     
     var body: some View {
         NavigationView{
             VStack{
-                Text(timerLogic(from: referenceDate, to: curr)).font(.largeTitle)
+//                Text(timerLogic(from: referenceDate, to: curr)).font(.largeTitle)
+                Text(timerLogic(from: Date(timeIntervalSinceNow: timeRemaining) , to: curr) + ":0" + "\(self.msRemaining)" + "ms").font(.largeTitle)
+                        .onReceive(timer) { _ in
+                            
+
+                            if self.timeRemaining > 0 {
+                                if self.msRemaining > 0{
+                                    self.msRemaining -= 1
+                                } else {
+                                    self.msRemaining = 9
+                                }
+                                self.curr = Date()
+                                self.timeRemaining -= 0.1
+                            } else{
+                                self.msRemaining = 0
+                            }
+                        }
+                
                 Button(action: {
-                    
-                    let _ = self.timer
-                }) {
+                    self.timeRemaining = 10
+                    self.curr = Date()
+                    self.timer.connect()                }) {
                     Text("START").font(.subheadline)
                 }
             }
