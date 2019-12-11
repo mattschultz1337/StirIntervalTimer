@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-
+import AVFoundation
 struct ContentView: View {
     
     @State var curr: Date = Date()
@@ -18,6 +18,8 @@ struct ContentView: View {
     @State private var mselection = 0
     @State private var sselection = 0
     @State var pause = false
+    
+  
     let colors = ["Red","Yellow","Green","Blue"]
     let timer = Timer.publish(every: 0.1, on: .main, in: .common)
     
@@ -38,6 +40,7 @@ struct ContentView: View {
                             self.timeRemaining -= 0.1
                         } else if !self.pause{
                             self.msRemaining = 0
+                            playSound(soundName: "alarm.mp3")
                         }
                 }
                 Spacer().frame(height: 25)
@@ -47,7 +50,7 @@ struct ContentView: View {
                 Group{
                     Button(action: {
                         if !self.pause{
-                            self.timeRemaining = 10
+                            self.timeRemaining = Double(self.sselection + (60 * self.mselection) + (3600 * self.hselection))
                             self.curr = Date()
                             self.timer.connect()
                         } else{
@@ -65,6 +68,9 @@ struct ContentView: View {
                     }
                     Spacer().frame(width: 70)
                     Button(action: {
+                        self.hselection = 0
+                        self.mselection = 0
+                        self.sselection = 0
                         self.timeRemaining = 0
                         self.pause = false
                         self.curr = Date()
@@ -73,35 +79,31 @@ struct ContentView: View {
                     }
                 }
             }
-            
-            NavigationView{
-               
-                    HStack{
-                       Picker("Hours", selection: $hselection) {
-                            ForEach(0..<25) {
-                                Text("\($0) hours")
-                            }
-                            
-                        }
-                       .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                        Picker("Minutes", selection: $mselection) {
-                            ForEach(0..<60) {
-                                Text("\($0) mins")
-                            }
-                        }
-                        .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                        Picker("Seconds", selection: $sselection) {
-                            ForEach(0..<60) {
-                                Text("\($0) secs")
-                            }
-                        }
-                        .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+            HStack{
+                Picker("Hours", selection: $hselection) {
+                    ForEach(0..<25) {
+                        Text("\($0) hours")
                     }
-                
-            }
+                    
+                }
+                .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                Picker("Minutes", selection: $mselection) {
+                    ForEach(0..<60) {
+                        Text("\($0) mins")
+                    }
+                }
+                .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                Picker("Seconds", selection: $sselection) {
+                    ForEach(0..<60) {
+                        Text("\($0) secs")
+                    }
+                }
+                .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+            }.frame(height: 200)
             
             
-            //                    .pickerStyle(WheelPickerStyle())
+            
+            
         }
         //
         //
@@ -109,7 +111,12 @@ struct ContentView: View {
         
     }
 }
-
+func playSound(soundName: String) { //
+     
+//    let url = Bundle.main.url(forResource: soundName, withExtension: "wav")
+//    player = try! AVAudioPlayer(contentsOf: url!)
+//    player?.play()
+}
 func timerLogic(from date: Date, to curr: Date) -> String{
     
     let calendar = Calendar(identifier: .gregorian)
@@ -122,6 +129,7 @@ func timerLogic(from date: Date, to curr: Date) -> String{
                   components.minute ?? 00,
                   components.second ?? 00)
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

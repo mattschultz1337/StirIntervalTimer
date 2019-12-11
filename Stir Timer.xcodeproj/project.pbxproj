@@ -15,6 +15,7 @@
 		75EF86CC23A1629400480F7D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75EF86CA23A1629400480F7D /* LaunchScreen.storyboard */; };
 		75EF86D723A1629400480F7D /* Stir_TimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EF86D623A1629400480F7D /* Stir_TimerTests.swift */; };
 		75EF86E223A1629400480F7D /* Stir_TimerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EF86E123A1629400480F7D /* Stir_TimerUITests.swift */; };
+		75EF86F023A1B85A00480F7D /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 75EF86EF23A1B85A00480F7D /* alarm.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		75EF86DD23A1629400480F7D /* Stir TimerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Stir TimerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75EF86E123A1629400480F7D /* Stir_TimerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stir_TimerUITests.swift; sourceTree = "<group>"; };
 		75EF86E323A1629400480F7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		75EF86EF23A1B85A00480F7D /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = alarm.mp3; path = "../../../../Downloads/Wecker-sound/alarm.mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		75EF86BE23A1629200480F7D /* Stir Timer */ = {
 			isa = PBXGroup;
 			children = (
+				75EF86EF23A1B85A00480F7D /* alarm.mp3 */,
 				75EF86BF23A1629200480F7D /* AppDelegate.swift */,
 				75EF86C123A1629200480F7D /* SceneDelegate.swift */,
 				75EF86C323A1629200480F7D /* ContentView.swift */,
@@ -240,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75EF86F023A1B85A00480F7D /* alarm.mp3 in Resources */,
 				75EF86CC23A1629400480F7D /* LaunchScreen.storyboard in Resources */,
 				75EF86C923A1629400480F7D /* Preview Assets.xcassets in Resources */,
 				75EF86C623A1629400480F7D /* Assets.xcassets in Resources */,
