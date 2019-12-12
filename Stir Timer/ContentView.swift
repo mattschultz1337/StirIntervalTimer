@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Foundation
 import AVFoundation
 struct ContentView: View {
     
@@ -19,14 +20,27 @@ struct ContentView: View {
     @State private var sselection = 0
     @State var pause = false
     
-  
+
     let colors = ["Red","Yellow","Green","Blue"]
     let timer = Timer.publish(every: 0.01, on: .main, in: .common)
     
     var body: some View {
         VStack{
+            Button(action: {
+                var playsound: AVAudioPlayer?
+                do {
+                    playsound = try AVAudioPlayer(contentsOf: URL(string: "/Users/mobile/Library/Developer/CoreSimulator/Devices/55BAE8BB-A119-4EC2-9D68-A45CDF7B7B33/data/Containers/Bundle/Application/6CB7F2A9-734C-47A1-A34A-35884AD2F4FE/Stir Timer.app/alarm.mp3")!)
+                    playsound?.play()
+                } catch {
+                    // couldn't load file :(
+                }
+            }) {
+                Text("PLAY").font(.subheadline).bold()
+            }
             Group{
-                Text(timerLogic(from: Date(timeIntervalSinceNow: timeRemaining) , to: curr) + ":0" + "\(self.msRemaining)" + "ms").font(.largeTitle)
+                HStack{
+                    Spacer().frame(width: 38)
+                Text(timerLogic(from: Date(timeIntervalSinceNow: timeRemaining) , to: curr) + "." + intTodubString(ms: self.msRemaining) ).font(.system(size: 53)).frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                     .onReceive(timer) { _ in
                         
                         
@@ -40,8 +54,9 @@ struct ContentView: View {
                             self.timeRemaining -= 0.01
                         } else if !self.pause{
                             self.msRemaining = 0
-                            playSound(soundName: "alarm.mp3")
-                        }
+                                                    }
+                }
+                    Spacer().frame(width: 25)
                 }
                 Spacer().frame(height: 25)
             }
@@ -81,22 +96,28 @@ struct ContentView: View {
             }
             HStack{
                 Picker("Hours", selection: $hselection) {
+                   
                     ForEach(0..<25) {
                         Text("\($0) hours")
                     }
                     
+                    
                 }
                 .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 Picker("Minutes", selection: $mselection) {
+                    
+
                     ForEach(0..<60) {
                         Text("\($0) mins")
                     }
-                }
+                                    }
                 .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 Picker("Seconds", selection: $sselection) {
+                
                     ForEach(0..<60) {
                         Text("\($0) secs")
                     }
+                    
                 }
                 .labelsHidden().frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             }.frame(height: 200)
@@ -111,6 +132,12 @@ struct ContentView: View {
         
     }
 }
+
+func intTodubString(ms: Int) -> String{
+    
+    return String(format: "%02d", ms)
+
+}
 func playSound(soundName: String) { //
      
 //    let url = Bundle.main.url(forResource: soundName, withExtension: "wav")
@@ -124,12 +151,20 @@ func timerLogic(from date: Date, to curr: Date) -> String{
         .dateComponents([.hour, .minute, .second]
             ,from: curr,
              to: date)
-    return String(format: "%02dh:%02d:%02ds",
+    return String(format: "%02d:%02d:%02d",
                   components.hour ?? 00,
                   components.minute ?? 00,
                   components.second ?? 00)
 }
 
+struct Player{
+    static let shared = Player()
+    var alarmsound: AVAudioPlayer?
+    
+    private init(){
+        
+    }
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
