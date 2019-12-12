@@ -21,7 +21,7 @@ struct ContentView: View {
     
   
     let colors = ["Red","Yellow","Green","Blue"]
-    let timer = Timer.publish(every: 0.1, on: .main, in: .common)
+    let timer = Timer.publish(every: 0.01, on: .main, in: .common)
     
     var body: some View {
         VStack{
@@ -34,10 +34,10 @@ struct ContentView: View {
                             if self.msRemaining > 0{
                                 self.msRemaining -= 1
                             } else {
-                                self.msRemaining = 9
+                                self.msRemaining = 99
                             }
                             self.curr = Date()
-                            self.timeRemaining -= 0.1
+                            self.timeRemaining -= 0.01
                         } else if !self.pause{
                             self.msRemaining = 0
                             playSound(soundName: "alarm.mp3")
